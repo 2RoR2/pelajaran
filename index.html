@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elektromekanikal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="src/images/logo.png" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  </head>
+  <body>
+    <!-- Opening Scene -->
+    <div id="opening-scene" class="scene opening-scene active">
+      <img src="src/images/sun.png" alt="" class="farm-sun" />
+      <img src="src/images/cloud.png" alt="" class="farm-cloud cloud-left" />
+      <img src="src/images/cloud.png" alt="" class="farm-cloud cloud-right" />
+      <div class="farm-barn"></div>
+      <div class="farm-fence fence-left"></div>
+      <div class="farm-fence fence-right"></div>
+      <div class="farm-crops"></div>
+      <div class="opening-shell">
+        <section class="opening-card opening-hero-card">
+          <img src="src/images/logo.png" alt="Logo Elektromekanikal" class="site-logo hero-logo" />
+          <h1>ELEKTROMEKANIKAL INFORMASI</h1>
+          <p>MASUK KE DUNIA ELEKTROMEKANIKAL</p>
+          <div class="start-btn-container">
+            <button id="enter-world" class="primary-button" type="button">MULA PERMAINAN</button>
+            <span class="press-start-hint">TEKAN UNTUK MULA</span>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- World Map Scene -->
+    <main id="world-scene" class="scene world-scene">
+      <div class="world-map">
+        <!-- Campus Environment -->
+        <div class="campus-aura"></div>
+        <div class="campus-plaza"></div>
+        <div class="campus-path path-main"></div>
+        <div class="campus-path path-left"></div>
+        <div class="campus-path path-right"></div>
+        <div class="campus-path path-bottom"></div>
+        <div class="campus-garden garden-left"></div>
+        <div class="campus-garden garden-right"></div>
+        <div class="campus-bench bench-left"></div>
+        <div class="campus-bench bench-right"></div>
+        <div class="lamp-post lamp-left"></div>
+        <div class="lamp-post lamp-right"></div>
+        <div class="campus-stones stones-left"></div>
+        <div class="campus-stones stones-right"></div>
+        <div class="world-title-board">
+          <img src="src/images/logo.png" alt="Logo Elektromekanikal" class="site-logo board-logo" />
+          <h2>KAMPUS ELEKTROMEKANIKAL</h2>
+        </div>
+        <div class="campus-pond"></div>
+        
+        <div class="flower-patch" style="left: 10%; top: 15%;">
+          <div class="flower"></div><div class="flower"></div>
+        </div>
+        <div class="flower-patch" style="right: 15%; top: 10%;">
+          <div class="flower"></div><div class="flower"></div>
+        </div>
+        <div class="flower-patch" style="left: 15%; bottom: 10%;">
+          <div class="flower"></div><div class="flower"></div>
+        </div>
+        <div class="flower-patch" style="right: 10%; bottom: 15%;">
+          <div class="flower"></div><div class="flower"></div>
+        </div>
+
+        <div class="pixel-tree" style="left: 5%; top: 5%;"></div>
+        <div class="pixel-tree" style="left: 10%; bottom: 5%;"></div>
+        <div class="pixel-tree" style="right: 5%; top: 10%;"></div>
+        <div class="pixel-tree" style="right: 8%; bottom: 8%;"></div>
+        
+        <div class="grass-patch" style="left: 20%; top: 40%;"></div>
+        <div class="grass-patch" style="right: 20%; top: 40%;"></div>
+        <div class="grass-patch" style="left: 30%; bottom: 30%;"></div>
+        <div class="grass-patch" style="right: 30%; bottom: 30%;"></div>
+
+
+        <!-- Interactive Buildings -->
+        <button class="world-block block-notes" data-enter-scene="notes-scene" type="button">
+          <span class="block-title">BILIK NOTA</span>
+          <div class="pixel-building building-notes"></div>
+        </button>
+
+        <button class="world-block block-quiz" data-enter-scene="quiz-scene" type="button">
+          <span class="block-title">BILIK KUIZ</span>
+          <div class="pixel-building building-quiz"></div>
+        </button>
+
+        <button class="world-block block-simulator" data-enter-scene="simulator-scene" type="button">
+          <span class="block-title">BENGKEL SIMULASI</span>
+          <div class="pixel-building building-simulator"></div>
+        </button>
+
+        <!-- Player Character -->
+        <div id="game-player" class="game-character">
+          <img src="src/images/character.gif" alt="Watak pemain" class="character-sprite" />
+          <div class="character-shadow"></div>
+          <div class="character-label">ANDA</div>
+        </div>
+
+        <!-- Game HUD Overlay -->
+        <div class="game-hud">
+          <div class="hud-bottom-center">
+            <div class="dialogue-box">
+              <div class="dialogue-avatar" aria-hidden="true"></div>
+              <div class="dialogue-content">
+                <h5>ANDA</h5>
+                <p id="dialogue-text">Selamat datang! Sila pilih bangunan untuk memulakan latihan anda hari ini.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Notes Scene -->
+    <section id="notes-scene" class="scene room-scene">
+      <button class="scene-back ghost-button" data-enter-scene="world-scene" type="button">Kembali ke Peta</button>
+      <div class="room-shell">
+        <div class="room-header">
+          <div>
+            <h2>Nota Elektromekanikal</h2>
+            <p class="room-subtitle">Ringkasan pantas untuk komponen utama, logik kawalan, dan peranti output.</p>
+          </div>
+          <div class="pill cyan">3 Topik Teras</div>
+        </div>
+        <div id="reference-list" class="reference-grid"></div>
+      </div>
+    </section>
+
+    <!-- Quiz Scene -->
+    <section id="quiz-scene" class="scene room-scene">
+      <button class="scene-back ghost-button" data-enter-scene="world-scene" type="button">Kembali ke Peta</button>
+      <div class="room-shell">
+        <div class="room-header">
+          <div>
+            <h2>Bilik Kuiz</h2>
+            <p class="room-subtitle">Uji pemahaman anda dengan soalan interaktif dan maklum balas segera.</p>
+          </div>
+          <div class="pill mint">4 Kategori Kuiz</div>
+        </div>
+        <div id="quiz-container">
+          <!-- Quiz content injected here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Simulator Scene -->
+    <section id="simulator-scene" class="scene room-scene">
+      <button class="scene-back ghost-button" data-enter-scene="world-scene" type="button">Kembali ke Peta</button>
+      <div class="room-shell">
+        <div class="room-header">
+          <div>
+            <h2 id="sim-mission-title">Studio Rekaan Kereta</h2>
+            <p class="room-subtitle">Ikut langkah Tahun 6 RBT untuk mereka bentuk kereta, pilih komponen, dan uji hasil binaan.</p>
+          </div>
+          <div class="pill amber">Simulasi</div>
+        </div>
+        <div class="sim-room-grid">
+          <!-- Simulator workbench and components injected here -->
+          <div class="sim-left-column">
+            <div id="sim-viewport" class="sim-viewport"></div>
+            <div id="sim-reference-stage" class="sim-reference-stage"></div>
+          </div>
+          <div id="component-catalog" class="component-catalog"></div>
+        </div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
