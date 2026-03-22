@@ -697,19 +697,40 @@ function renderSimulator() {
 
   // Clear previous simulation if any
   if (state.sim3d) {
-    state.sim3d.renderer.dispose();
-    mount.innerHTML = "";
+    if (state.sim3d.animationId) cancelAnimationFrame(state.sim3d.animationId);
+    if (state.sim3d.resizeHandler) {
+      window.removeEventListener("resize", state.sim3d.resizeHandler);
+    }
+    if (state.sim3d.renderer) state.sim3d.renderer.dispose();
     state.sim3d = null;
+  }
+  mount.innerHTML = "";
+
+  if (typeof THREE === "undefined") {
+    mount.innerHTML = `
+      <div class="sim-fallback-message">
+        Simulator 3D tidak dapat dimuatkan pada peranti ini. Sila semak sambungan internet atau cuba buka semula halaman.
+      </div>
+    `;
+    return;
   }
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x18202e);
-  const camera = new THREE.PerspectiveCamera(45, mount.clientWidth / mount.clientHeight, 0.1, 1000);
-  camera.position.set(6.6, 7.6, 5.9);
-  camera.lookAt(0, 0.65, 0);
+  const initialWidth = Math.max(mount.clientWidth, 1);
+  const initialHeight = Math.max(mount.clientHeight, 220);
+  const isPhoneViewport = window.matchMedia("(max-width: 480px)").matches;
+  const camera = new THREE.PerspectiveCamera(isPhoneViewport ? 54 : 45, initialWidth / initialHeight, 0.1, 1000);
+  camera.position.set(
+    isPhoneViewport ? 7.6 : 6.6,
+    isPhoneViewport ? 8.3 : 7.6,
+    isPhoneViewport ? 7.1 : 5.9
+  );
+  camera.lookAt(0, isPhoneViewport ? 0.9 : 0.65, 0);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(mount.clientWidth, mount.clientHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(initialWidth, initialHeight);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -1200,7 +1221,7 @@ function renderSimulator() {
   // Animation Loop
   function animate() {
     if (state.currentScene !== "simulator-scene") return;
-    requestAnimationFrame(animate);
+    state.sim3d.animationId = requestAnimationFrame(animate);
     
     if (state.sim.carMoving) {
       if (gear) gear.rotation.z += state.sim.carDirection * 0.15;
@@ -1222,8 +1243,26 @@ function renderSimulator() {
     
     renderer.render(scene, camera);
   }
+  const resizeHandler = () => {
+    const width = Math.max(mount.clientWidth, 1);
+    const height = Math.max(mount.clientHeight, 220);
+    const isPhone = window.matchMedia("(max-width: 480px)").matches;
+    camera.fov = isPhone ? 54 : 45;
+    camera.aspect = width / height;
+    camera.position.set(
+      isPhone ? 7.6 : 6.6,
+      isPhone ? 8.3 : 7.6,
+      isPhone ? 7.1 : 5.9
+    );
+    camera.lookAt(0, isPhone ? 0.9 : 0.65, 0);
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  };
+
+  state.sim3d = { scene, camera, renderer, resizeHandler, animationId: null };
+  window.addEventListener("resize", resizeHandler);
+  resizeHandler();
   animate();
-  state.sim3d = { scene, camera, renderer };
 
   // Update UI
   const catalog = document.getElementById("component-catalog");

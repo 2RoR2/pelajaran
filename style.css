@@ -1485,6 +1485,17 @@ body {
   display: block;
 }
 
+.sim-fallback-message {
+  min-height: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  color: #fef3c7;
+  line-height: 1.6;
+}
+
 .catalog-panel {
   display: flex;
   flex-direction: column;
@@ -2764,6 +2775,56 @@ body {
   }
 }
 
+@media (max-width: 700px) {
+  .room-scene {
+    padding: 12px;
+  }
+
+  .room-shell {
+    padding: 18px;
+    min-height: calc(100dvh - 24px);
+  }
+
+  .sim-room-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .sim-left-column {
+    gap: 14px;
+  }
+
+  .sim-viewport {
+    min-height: 280px;
+  }
+
+  .sim-reference-stage {
+    margin-top: 0;
+  }
+
+  .sim-controls {
+    min-height: auto;
+    padding: 18px;
+  }
+
+  .sim-step-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sim-actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .remote-btns {
+    flex-direction: column;
+  }
+
+  .remote-btn {
+    width: 100%;
+  }
+}
+
 .sim-room-grid {
   grid-template-columns: minmax(0, 1.55fr) 360px;
   align-items: start;
@@ -3346,5 +3407,417 @@ body {
   .farm-fence {
     width: 120px;
     height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .world-scene {
+    inset: 0;
+  }
+
+  .world-map {
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .world-title-board {
+    top: 10px;
+    width: calc(100% - 16px);
+    padding: 8px 10px;
+    gap: 8px;
+    border-width: 3px;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .world-title-board h2 {
+    font-size: 0.72rem;
+    line-height: 1.15;
+    letter-spacing: 0.08em;
+  }
+
+  .board-logo {
+    width: 26px;
+    height: 26px;
+  }
+
+  .campus-plaza {
+    width: min(92vw, 340px);
+    height: min(52vh, 340px);
+    top: 47%;
+    border-radius: 30px;
+  }
+
+  .path-main {
+    width: 76px;
+    top: 10%;
+    height: 50%;
+  }
+
+  .path-left,
+  .path-right {
+    top: 30%;
+    width: 31%;
+    height: 48px;
+  }
+
+  .path-bottom {
+    width: 76px;
+    height: 24%;
+    bottom: 16%;
+  }
+
+  .campus-garden,
+  .campus-bench,
+  .lamp-post,
+  .campus-stones,
+  .flower-patch,
+  .grass-patch {
+    display: none;
+  }
+
+  .pixel-tree {
+    transform: scale(0.72);
+  }
+
+  .world-block {
+    width: 108px;
+    height: 104px;
+    filter: drop-shadow(0 12px 0 rgba(0, 0, 0, 0.12));
+  }
+
+  .block-title {
+    font-size: 0.52rem;
+    line-height: 1.15;
+    padding: 4px 6px;
+    margin-bottom: 8px;
+    box-shadow: 2px 2px 0 #000;
+  }
+
+  .pixel-building {
+    width: 58px;
+    height: 48px;
+    filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.15));
+  }
+
+  .block-notes {
+    left: 4%;
+    top: 15%;
+  }
+
+  .block-quiz {
+    right: 4%;
+    top: 15%;
+  }
+
+  .block-simulator {
+    left: 50%;
+    right: auto;
+    bottom: 26%;
+    transform: translateX(-50%);
+  }
+
+  .world-block:hover {
+    transform: none;
+  }
+
+  .game-character {
+    width: 56px;
+    height: 76px;
+    top: 50%;
+  }
+
+  .character-sprite {
+    width: 56px;
+    height: 56px;
+  }
+
+  .character-shadow {
+    width: 34px;
+    height: 10px;
+  }
+
+  .character-label {
+    font-size: 0.68rem;
+  }
+
+  .game-hud {
+    padding: 56px 6px 6px;
+    justify-content: flex-end;
+  }
+
+  .dialogue-box {
+    width: 100%;
+    margin-bottom: 0;
+    padding: 8px 10px 10px;
+    gap: 8px;
+    border-radius: 12px;
+    box-shadow: 0 8px 0 rgba(0, 0, 0, 0.18);
+  }
+
+  .dialogue-avatar {
+    width: 34px;
+    height: 34px;
+    border-width: 2px;
+    box-shadow: none;
+  }
+
+  .dialogue-content h5 {
+    font-size: 0.7rem;
+    margin-bottom: 2px;
+  }
+
+  .dialogue-content p {
+    font-size: 0.64rem;
+    line-height: 1.25;
+  }
+
+  .room-scene {
+    padding: 8px;
+  }
+
+  .scene-back {
+    min-width: 0;
+    width: fit-content;
+    margin-bottom: 12px;
+    padding: 7px 12px;
+    font-size: 0.64rem;
+    border-width: 3px;
+  }
+
+  .room-shell {
+    min-height: calc(100dvh - 16px);
+    padding: 14px 10px;
+    border-radius: 18px;
+  }
+
+  .room-header {
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .room-header h2 {
+    margin: 2px 0 6px;
+    font-size: 1.18rem;
+    line-height: 1.05;
+  }
+
+  .room-subtitle {
+    font-size: 0.72rem;
+    line-height: 1.35;
+  }
+
+  .pill {
+    min-height: 0;
+    padding: 6px 10px;
+    font-size: 0.68rem;
+  }
+
+  .sim-room-grid {
+    gap: 10px;
+  }
+
+  .sim-viewport {
+    min-height: 200px;
+    border-radius: 16px;
+  }
+
+  .sim-reference-card {
+    border-radius: 16px;
+  }
+
+  .sim-controls {
+    gap: 10px;
+    padding: 12px 10px;
+  }
+
+  .sim-step-header {
+    gap: 6px;
+  }
+
+  .step-badge,
+  .part-badge {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.68rem;
+    padding: 6px 8px;
+  }
+
+  .sim-task-box {
+    min-height: 0;
+    padding: 12px 10px;
+    border-radius: 12px;
+  }
+
+  .sim-task-box h3 {
+    font-size: 0.86rem;
+    line-height: 1.28;
+  }
+
+  .sim-task-box p {
+    font-size: 0.7rem;
+  }
+
+  .progress-text {
+    font-size: 0.66rem;
+  }
+
+  .sim-actions-grid .primary-button,
+  .sim-actions-grid .ghost-button {
+    min-height: 42px;
+    padding: 8px 6px;
+    font-size: 0.68rem;
+    white-space: normal;
+    line-height: 1.15;
+    border-width: 3px;
+    box-shadow: 4px 4px 0 #2f2416;
+  }
+
+  .remote-btn {
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .world-title-board {
+    top: 14px;
+    width: min(92vw, 520px);
+    padding: 10px 16px;
+  }
+
+  .world-title-board h2 {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .campus-plaza {
+    width: min(72vw, 520px);
+    height: min(50vh, 420px);
+    top: 48%;
+  }
+
+  .path-main {
+    width: 108px;
+    top: 10%;
+    height: 50%;
+  }
+
+  .path-left,
+  .path-right {
+    top: 30%;
+    width: 30%;
+    height: 72px;
+  }
+
+  .path-bottom {
+    width: 108px;
+    bottom: 16%;
+    height: 22%;
+  }
+
+  .bench-left {
+    left: 34%;
+    top: 33%;
+  }
+
+  .bench-right {
+    right: 26%;
+    bottom: 22%;
+  }
+
+  .lamp-left {
+    left: 41%;
+    top: 18%;
+  }
+
+  .lamp-right {
+    right: 34%;
+    top: 18%;
+  }
+
+  .world-block {
+    width: 150px;
+    height: 150px;
+  }
+
+  .block-notes {
+    left: 8%;
+    top: 16%;
+  }
+
+  .block-quiz {
+    right: 8%;
+    top: 16%;
+  }
+
+  .block-simulator {
+    left: 50%;
+    right: auto;
+    bottom: 18%;
+    transform: translateX(-50%);
+  }
+
+  .game-character {
+    top: 52%;
+  }
+
+  .game-hud {
+    padding: 84px 16px 14px;
+  }
+
+  .dialogue-box {
+    width: min(100%, 760px);
+    padding: 14px 16px;
+    gap: 14px;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .sim-room-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .sim-left-column,
+  #component-catalog {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .sim-left-column {
+    order: 1;
+  }
+
+  #component-catalog {
+    order: 2;
+  }
+
+  .sim-viewport {
+    min-height: 280px;
+  }
+
+  .sim-reference-stage {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .sim-room-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .sim-left-column,
+  #component-catalog {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .sim-viewport {
+    min-height: 190px;
   }
 }
