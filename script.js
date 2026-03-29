@@ -87,7 +87,36 @@ const QUIZ_CATEGORIES = {
 
 const STORAGE_KEYS = {
   quizScores: "electromekanikal_quiz_scores",
+  selectedCharacter: "electromekanikal_selected_character",
 };
+
+const CHARACTER_OPTIONS = [
+  {
+    id: "sinchan",
+    name: "Shin Chan",
+    sprite: "src/images/character/sinchan.gif",
+  },
+  {
+    id: "cat",
+    name: "Kucing",
+    sprite: "src/images/character/cat.gif",
+  },
+  {
+    id: "dino",
+    name: "Dinosaur",
+    sprite: "src/images/character/dino.gif",
+  },
+  {
+    id: "penguin",
+    name: "Penguin",
+    sprite: "src/images/character/penguin.gif",
+  },
+  {
+    id: "star",
+    name: "Bintang",
+    sprite: "src/images/character/star.gif",
+  },
+];
 
 const FIXED_REFERENCE = [
   {
@@ -124,11 +153,17 @@ const NOTES_SECTIONS = [
         title: "Plag 3 Pin",
         body: "Terdiri daripada tiga tamatan iaitu Hidup (L), Neutral (N) dan Bumi (E).",
         points: ["Fungsi: Menyambung perkakasan elektrik kepada bekalan kuasa", "Contoh: Digunakan pada mesin basuh"],
+        images: [
+          { src: "src/images/equipment/Plag_3_Pin.jpeg", alt: "Gambar plag 3 pin" },
+        ],
       },
       {
         title: "Motor",
         body: "Dihubungkan dengan komponen mekanikal lain untuk menghasilkan pergerakan.",
         points: ["Fungsi: Menukar tenaga elektrik kepada tenaga kinetik", "Contoh: Memusingkan dram mesin basuh melalui takal"],
+        images: [
+          { src: "src/images/equipment/Motor.jpeg", alt: "Gambar motor" },
+        ],
       },
     ],
   },
@@ -143,11 +178,17 @@ const NOTES_SECTIONS = [
         title: "Panel Kawalan",
         body: "Terdiri daripada papan litar dengan pelbagai komponen elektronik.",
         points: ["Fungsi: Mengawal keseluruhan sistem", "Contoh: Mengawal kelajuan putaran dram mesin basuh"],
+        images: [
+          { src: "src/images/equipment/Panel_Kawalan.jpeg", alt: "Gambar panel kawalan" },
+        ],
       },
       {
         title: "Sensor",
         body: "Mengesan perubahan persekitaran seperti cahaya, haba, tekanan, dan kelembapan.",
         points: ["Fungsi: Menghantar isyarat elektrik kepada panel kawalan", "Contoh: Mesin basuh berhenti berputar jika beban dikesan tidak seimbang"],
+        images: [
+          { src: "src/images/equipment/Sensor.jpeg", alt: "Gambar sensor" },
+        ],
       },
       {
         title: "Peranan Elektronik",
@@ -167,21 +208,33 @@ const NOTES_SECTIONS = [
         title: "Takal",
         body: "Roda yang mempunyai alur rim yang sesuai dipasang dengan tali atau rantai padanya.",
         points: ["Fungsi: Menggerakkan sesuatu objek", "Contoh: Memutarkan dram mesin basuh selepas dihubungkan dengan motor menggunakan tali sawat"],
+        images: [
+          { src: "src/images/equipment/Takal.jpeg", alt: "Gambar takal" },
+        ],
       },
       {
         title: "Tali Sawat",
         body: "Tali yang menghubungkan dua atau lebih takal.",
         points: ["Fungsi: Memindahkan putaran yang dihasilkan oleh motor ke takal"],
+        images: [
+          { src: "src/images/equipment/Tali_Sawat.jpeg", alt: "Gambar tali sawat" },
+        ],
       },
       {
         title: "Gear",
         body: "Susunan roda bergigi yang dihubungkan untuk memindahkan kuasa.",
         points: ["Fungsi: Menukar kelajuan atau arah pergerakan", "Gigi gear mesti bersentuhan antara satu sama lain"],
+        images: [
+          { src: "src/images/equipment/Gear.jpeg", alt: "Gambar gear" },
+        ],
       },
       {
         title: "Gegancu & Rantai",
         body: "Dua gegancu dihubungkan melalui rantai untuk memindahkan pergerakan.",
         points: ["Digerakkan oleh motor", "Digunakan untuk memindahkan pergerakan secara stabil"],
+        images: [
+          { src: "src/images/equipment/Gegancu.jpeg", alt: "Gambar gegancu" },
+        ],
       },
     ],
   },
@@ -328,6 +381,9 @@ const state = {
   currentScene: "opening-scene",
   isWalking: false,
   notesActiveSection: null,
+  selectedCharacterId: localStorage.getItem(STORAGE_KEYS.selectedCharacter) || CHARACTER_OPTIONS[0].id,
+  activeAudioId: null,
+  audioUnlocked: false,
   quiz: {
     activeCategory: null,
     index: 0,
@@ -344,6 +400,16 @@ const state = {
   sim3d: null,
 };
 
+const SCENE_AUDIO_MAP = {
+  "opening-scene": "audio-peta",
+  "character-scene": "audio-peta",
+  "world-scene": "audio-peta",
+  "notes-scene": "audio-nota",
+  "quiz-scene": "audio-kuiz",
+  "simulator-scene": "audio-simulasi",
+  "video-scene": null,
+};
+
 function escapeHtml(str) {
   if (!str) return "";
   const div = document.createElement("div");
@@ -351,8 +417,90 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+function getSelectedCharacter() {
+  return CHARACTER_OPTIONS.find((character) => character.id === state.selectedCharacterId) || CHARACTER_OPTIONS[0];
+}
+
+function applySelectedCharacter() {
+  const selectedCharacter = getSelectedCharacter();
+  const playerSprite = document.querySelector("#game-player .character-sprite");
+  const characterLabel = document.getElementById("character-label");
+  const dialogueAvatar = document.querySelector(".dialogue-avatar");
+  const dialogueName = document.getElementById("dialogue-name");
+
+  if (playerSprite) {
+    playerSprite.src = selectedCharacter.sprite;
+    playerSprite.alt = `Watak pemain ${selectedCharacter.name}`;
+  }
+
+  if (characterLabel) characterLabel.textContent = selectedCharacter.name.toUpperCase();
+  if (dialogueName) dialogueName.textContent = selectedCharacter.name.toUpperCase();
+  if (dialogueAvatar) dialogueAvatar.style.backgroundImage = `url("${selectedCharacter.sprite}")`;
+}
+
+function renderCharacterSelection() {
+  const mount = document.getElementById("character-select-list");
+  if (!mount) return;
+
+  mount.innerHTML = CHARACTER_OPTIONS.map((character) => `
+    <button
+      class="character-card ${state.selectedCharacterId === character.id ? "active" : ""}"
+      data-character-choice="${escapeHtml(character.id)}"
+      type="button"
+    >
+      <span class="character-preview-frame">
+        <img src="${escapeHtml(character.sprite)}" alt="${escapeHtml(character.name)}" class="character-preview-sprite" />
+      </span>
+      <span class="character-card-body">
+        <strong>${escapeHtml(character.name)}</strong>
+      </span>
+    </button>
+  `).join("");
+}
+
+function chooseCharacter(characterId) {
+  const nextCharacter = CHARACTER_OPTIONS.find((character) => character.id === characterId);
+  if (!nextCharacter) return;
+
+  state.selectedCharacterId = nextCharacter.id;
+  localStorage.setItem(STORAGE_KEYS.selectedCharacter, nextCharacter.id);
+  renderCharacterSelection();
+  applySelectedCharacter();
+}
+
+function syncSceneAudio(sceneId) {
+  const nextAudioId = SCENE_AUDIO_MAP[sceneId];
+
+  document.querySelectorAll(".scene-audio-bank audio").forEach((audio) => {
+    const shouldPlay = audio.id === nextAudioId;
+
+    if (!shouldPlay) {
+      audio.pause();
+      audio.currentTime = 0;
+      return;
+    }
+
+    audio.volume = 0.6;
+    audio.muted = false;
+    if (state.audioUnlocked) {
+      const playAttempt = audio.play();
+      if (playAttempt && typeof playAttempt.catch === "function") {
+        playAttempt.catch(() => {});
+      }
+    }
+  });
+
+  state.activeAudioId = nextAudioId || null;
+}
+
+function unlockSceneAudio() {
+  if (state.audioUnlocked) return;
+  state.audioUnlocked = true;
+  if (state.currentScene) syncSceneAudio(state.currentScene);
+}
+
 function setScene(sceneId) {
-  const worldScenes = ["notes-scene", "quiz-scene", "simulator-scene"];
+  const worldScenes = ["notes-scene", "quiz-scene", "simulator-scene", "video-scene"];
   const isEnteringRoom = worldScenes.includes(sceneId);
 
   if (state.currentScene === "world-scene" && isEnteringRoom) {
@@ -395,8 +543,14 @@ function performSceneChange(sceneId) {
   const target = document.getElementById(sceneId);
   if (target) target.classList.add("active");
   state.currentScene = sceneId;
+  syncSceneAudio(sceneId);
+
+  if (sceneId === "character-scene") {
+    renderCharacterSelection();
+  }
 
   if (sceneId === "world-scene") {
+    applySelectedCharacter();
     const player = document.getElementById("game-player");
     const dialogueText = document.getElementById("dialogue-text");
     if (player) {
@@ -467,6 +621,15 @@ function renderNotes() {
               <span class="reference-chip">${escapeHtml(activeSection.label)}</span>
             </div>
             <h4>${escapeHtml(card.title)}</h4>
+            ${card.images?.length ? `
+              <div class="reference-media-grid">
+                ${card.images.map((image) => `
+                  <figure class="reference-media">
+                    <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" class="reference-media-image" />
+                  </figure>
+                `).join("")}
+              </div>
+            ` : ""}
             <p>${escapeHtml(card.body)}</p>
             <ul>${card.points.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}</ul>
           </article>
@@ -1607,19 +1770,51 @@ function handleSimulatorResize() {
 
 document.addEventListener("DOMContentLoaded", () => {
   const enterBtn = document.getElementById("enter-world");
+  const confirmCharacterBtn = document.getElementById("confirm-character");
+
+  applySelectedCharacter();
+  renderCharacterSelection();
+  syncSceneAudio(state.currentScene);
+
+  document.addEventListener(
+    "pointerdown",
+    () => {
+      unlockSceneAudio();
+    },
+    { once: true }
+  );
+
   if (enterBtn) {
-    enterBtn.onclick = () => setScene("world-scene");
+    enterBtn.onclick = () => {
+      unlockSceneAudio();
+      setScene("character-scene");
+    };
+  }
+
+  if (confirmCharacterBtn) {
+    confirmCharacterBtn.onclick = () => {
+      unlockSceneAudio();
+      applySelectedCharacter();
+      setScene("world-scene");
+    };
   }
 
   document.querySelectorAll("[data-enter-scene]").forEach((button) => {
     button.onclick = (event) => {
       event.preventDefault();
+      unlockSceneAudio();
       const targetScene = button.getAttribute("data-enter-scene");
       setScene(targetScene);
     };
   });
 
   document.addEventListener("click", (event) => {
+    const characterChoice = event.target.closest("[data-character-choice]");
+    if (characterChoice) {
+      chooseCharacter(characterChoice.getAttribute("data-character-choice"));
+      return;
+    }
+
     const noteSection = event.target.closest("[data-note-section]");
     if (noteSection) {
       handleNoteSection(noteSection.getAttribute("data-note-section"));

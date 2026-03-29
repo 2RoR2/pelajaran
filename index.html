@@ -37,6 +37,25 @@
       </div>
     </div>
 
+    <!-- Character Select Scene -->
+    <section id="character-scene" class="scene character-scene">
+      <div class="character-scene-shell">
+        <div class="character-scene-header">
+          <img src="src/images/logo.png" alt="Logo Elektromekanikal" class="site-logo hero-logo" />
+          <p class="character-kicker">Langkah 2</p>
+          <h2>Pilih Watak Anda</h2>
+          <p class="character-scene-copy">Pilih satu watak sebelum masuk ke peta kampus. Watak ini akan digunakan pada halaman peta.</p>
+        </div>
+
+        <div id="character-select-list" class="character-card-grid"></div>
+
+        <div class="character-scene-actions">
+          <button class="ghost-button" data-enter-scene="opening-scene" type="button">Kembali</button>
+          <button id="confirm-character" class="primary-button" type="button">Masuk Ke Peta</button>
+        </div>
+      </div>
+    </section>
+
     <!-- World Map Scene -->
     <main id="world-scene" class="scene world-scene">
       <div class="world-map">
@@ -74,10 +93,10 @@
           <div class="flower"></div><div class="flower"></div>
         </div>
 
-        <div class="pixel-tree" style="left: 5%; top: 5%;"></div>
-        <div class="pixel-tree" style="left: 10%; bottom: 5%;"></div>
-        <div class="pixel-tree" style="right: 5%; top: 10%;"></div>
-        <div class="pixel-tree" style="right: 8%; bottom: 8%;"></div>
+        <div class="pixel-tree tree-top-left" style="left: 5%; top: 5%;"></div>
+        <div class="pixel-tree tree-bottom-left" style="left: 10%; bottom: 5%;"></div>
+        <div class="pixel-tree tree-top-right" style="right: 5%; top: 10%;"></div>
+        <div class="pixel-tree tree-bottom-right" style="right: 8%; bottom: 8%;"></div>
         
         <div class="grass-patch" style="left: 20%; top: 40%;"></div>
         <div class="grass-patch" style="right: 20%; top: 40%;"></div>
@@ -101,23 +120,28 @@
           <div class="pixel-building building-simulator"></div>
         </button>
 
+        <button class="world-block block-video" data-enter-scene="video-scene" type="button">
+          <span class="block-title">BILIK VIDEO</span>
+          <div class="pixel-building building-video"></div>
+        </button>
+
         <!-- Player Character -->
         <div id="game-player" class="game-character">
-          <img src="src/images/character.gif" alt="Watak pemain" class="character-sprite" />
+          <img src="src/images/character/sinchan.gif" alt="Watak pemain" class="character-sprite" />
           <div class="character-shadow"></div>
-          <div class="character-label">ANDA</div>
+          <div id="character-label" class="character-label">ANDA</div>
         </div>
 
         <!-- Game HUD Overlay -->
         <div class="game-hud">
           <div class="hud-bottom-center">
             <div class="dialogue-box">
-              <div class="dialogue-avatar" aria-hidden="true"></div>
-              <div class="dialogue-content">
-                <h5>ANDA</h5>
+            <div class="dialogue-avatar" aria-hidden="true"></div>
+            <div class="dialogue-content">
+                <h5 id="dialogue-name">ANDA</h5>
                 <p id="dialogue-text">Selamat datang! Sila pilih bangunan untuk memulakan latihan anda hari ini.</p>
-              </div>
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -176,6 +200,38 @@
         </div>
       </div>
     </section>
+
+    <!-- Video Scene -->
+    <section id="video-scene" class="scene room-scene">
+      <button class="scene-back ghost-button" data-enter-scene="world-scene" type="button">Kembali ke Peta</button>
+      <div class="room-shell">
+        <div class="room-header">
+          <div>
+            <h2>Bilik Video</h2>
+            <p class="room-subtitle">Tonton pelajaran simulasi dengan gambar dan suara sebelum meneruskan aktiviti di kampus.</p>
+          </div>
+          <div class="pill amber">Video</div>
+        </div>
+        <section class="sim-lesson-card video-room-card">
+          <div class="sim-lesson-head">
+            <p class="room-kicker">Pelajaran Simulasi</p>
+            <h3>Video Rujukan Bengkel</h3>
+            <p>Tekan butang main untuk menonton video pembelajaran ini. Audio video akan dimainkan hanya apabila video dimulakan.</p>
+          </div>
+          <video class="sim-lesson-video" controls preload="metadata" playsinline>
+            <source src="src/videos/pelajansimulasi.mp4" type="video/mp4" />
+            Pelayar anda tidak menyokong video ini.
+          </video>
+        </section>
+      </div>
+    </section>
+
+    <div class="scene-audio-bank" aria-hidden="true">
+      <audio id="audio-peta" loop preload="auto" src="src/videos/peta.mp4"></audio>
+      <audio id="audio-nota" loop preload="auto" src="src/videos/nota.mp4"></audio>
+      <audio id="audio-kuiz" loop preload="auto" src="src/videos/kuiz.mp4"></audio>
+      <audio id="audio-simulasi" loop preload="auto" src="src/videos/bengkel_simulasi.mp4"></audio>
+    </div>
 
     <script src="script.js"></script>
   </body>
