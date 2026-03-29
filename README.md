@@ -209,16 +209,6 @@ Digunakan dalam:
 
 - `Perpustakaan`
 
-## Cara Jalankan Projek
-
-Ini ialah projek HTML/CSS/JavaScript biasa.
-
-Cara paling mudah:
-
-1. Buka folder projek
-2. Buka `index.html` dalam pelayar
-
-Jika mahu pengalaman lebih stabil, jalankan melalui local server, contohnya Live Server dalam VS Code.
 
 ## Ringkasan Cara Semuanya Bersambung
 
@@ -228,12 +218,3 @@ Jika mahu pengalaman lebih stabil, jalankan melalui local server, contohnya Live
 - imej dan video berada dalam `src/images` dan `src/videos`
 - `localStorage` digunakan untuk menyimpan pilihan watak dan skor kuiz
 
-## Nota Penyelenggaraan
-
-Jika mahu tambah kandungan baru:
-
-- tambah watak baru dalam `CHARACTER_OPTIONS`
-- tambah nota baru dalam `NOTES_SECTIONS`
-- tambah kategori kuiz baru dalam `QUIZ_CATEGORIES`
-- tambah media baru dalam `src/images` atau `src/videos`
-- kemas kini gaya responsif dalam `style.css` jika susun atur berubah
