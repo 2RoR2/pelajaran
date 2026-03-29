@@ -124,8 +124,9 @@ Perpustakaan ialah halaman khas untuk membuka bahan rujukan interaktif.
 
 Apa yang berlaku:
 
-- Bahan rujukan FlippingBook dipaparkan dalam halaman ini
-- Pengguna juga boleh membuka bahan tersebut dalam tab baharu jika perlu
+- Dua bahan bacaan komik FlippingBook dipaparkan dalam halaman ini
+- Pengguna boleh membaca versi `Bahasa Melayu` dan `Bahasa Cina`
+- Setiap bahan juga mempunyai butang untuk dibuka dalam tab baharu
 - Tiada muzik latar scene dalam halaman ini supaya kandungan lebih jelas
 
 ## Struktur Fail Utama
@@ -199,9 +200,10 @@ Pemetaan semasa:
 
 ### Video
 
-Video utama yang digunakan:
+Media utama yang digunakan:
 
-- `src/videos/pelajansimulasi.mp4`
+- `https://online.flippingbook.com/view/846804014/` untuk versi Bahasa Cina
+- `https://online.flippingbook.com/view/846908624/` untuk versi Bahasa Melayu
 
 Digunakan dalam:
 
